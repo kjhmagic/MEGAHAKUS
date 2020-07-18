@@ -10,7 +10,7 @@ Project DIVA Modding 2nd Discord server: https://discord.gg/cvBVGDZ
 
 ## Requirements
 - [Atmosphère](https://github.com/Atmosphere-NX/Atmosphere)
-- 初音ミク Project DIVA MEGA39's 1.0.3
+- 初音ミク Project DIVA MEGA39's 1.0.5
 - (recommended) An extracted copy of the game's romfs partition (use [Lockpick_RCM](https://github.com/shchmue/Lockpick_RCM), included with [Kosmos](https://github.com/AtlasNX/Kosmos), to dump your keys, then [hactool](https://github.com/SciresM/hactool) to extract the PFS0 AKA NSP and the NCAs it contains)
 
 ## Installation
@@ -42,25 +42,9 @@ Left: -0.1%
 Right: +0.1%
 L: -1.0%
 R: +1.0%
+ZL: -10.0%
+ZR: +10.0%
 -: 2%
 +: 100%
 ```
 Thanks to SwigS-27 for the resolution scale address.
-
-## Debug mode
-NOTE: Not compatible with DLC pack 2nd+.
-Currently, button releases are a bit buggy.
-```
-Joystick (default)/D-pad: move cursor
-L/R/Joystick: hold/push to move faster
-L+R: toggle overlay
-ZL: left click
-ZR: right click
-```
-Input polling interferes with clicks, therefore it must be disabled.
-Based on samyuu's research and code.
-
-## Enable recording
-A modified control NCA is required.
-Based on somewhatlurker's research.
-
