@@ -9,26 +9,27 @@ static DmntCheatProcessMetadata metadata;
 static bool initialized=false;
 static tsl::elm::ListItem *vp_itm;
 static tsl::elm::ListItem *ress_itm;
-static tsl::elm::ToggleListItem *poll_disable;
-static bool cursor_boundaries=true;
-static bool debug_mode_enabled=false;
-static bool dpad_cursor=false;
+//static tsl::elm::ToggleListItem *poll_disable;
+//static bool cursor_boundaries=true;
+//static bool debug_mode_enabled=false;
+//static bool dpad_cursor=false;
 static float opacity=1.0f;
 
+//pv_mark or av_mark
 void hidepvmark_toggle(bool state)
 {
     unsigned char buf;
-    if(state) buf='\0';
+    if(state) buf='a';
     else buf='p';
     dmntchtWriteCheatProcessMemory(metadata.main_nso_extents.base + PVMARK_OFFSET, &buf, sizeof(buf));
     return;
 }
 
-void force_test_mode(bool state)
+/*void force_test_mode(bool state)
 {
     if(state) MINITLAC_injectGameSubState(metadata.main_nso_extents.base, 4, 29);
     else MINITLAC_restoreGameSubState(metadata.main_nso_extents.base);
-}
+}*/
 
 bool VPincrease(u64 button)
 {
@@ -60,16 +61,17 @@ bool VPincrease(u64 button)
 
 bool ress_control(u64 button)
 {
-    if(button==KEY_A||button==KEY_DRIGHT||button==KEY_LSTICK_RIGHT||button==KEY_RSTICK_RIGHT||button==KEY_X||button==KEY_DLEFT||button==KEY_LSTICK_LEFT||button==KEY_RSTICK_LEFT||button==KEY_MINUS||button==KEY_PLUS||button==KEY_L||button==KEY_R)
+    if(button==KEY_A||button==KEY_DRIGHT||button==KEY_LSTICK_RIGHT||button==KEY_RSTICK_RIGHT||button==KEY_X||button==KEY_DLEFT||button==KEY_LSTICK_LEFT||button==KEY_RSTICK_LEFT||button==KEY_MINUS||button==KEY_PLUS||button==KEY_L||button==KEY_R||button==KEY_ZL||button==KEY_ZR)
     {
         int step=1;
         if(button==KEY_L||button==KEY_R) step=10;
+        if(button==KEY_ZL||button==KEY_ZR) step=100;
 
         float ress;
         if(!dmntchtReadCheatProcessMemory(metadata.main_nso_extents.base + RES_SCALE_OFFSET, &ress, sizeof(ress)))
         {
             int resp=static_cast<int>(ress*1000);
-            if(button==KEY_X||button==KEY_DLEFT||button==KEY_LSTICK_LEFT||button==KEY_RSTICK_LEFT||button==KEY_L)
+            if(button==KEY_X||button==KEY_DLEFT||button==KEY_LSTICK_LEFT||button==KEY_RSTICK_LEFT||button==KEY_L||button==KEY_ZL)
             {
                 if(resp-step>=0) resp-=step;
                 else resp=0;
@@ -101,7 +103,7 @@ bool debugService_isRunning()
     return isRunning;
 }
 
-void inputpoll_toggle(bool state)
+/*void inputpoll_toggle(bool state)
 {
     unsigned char buf[4];
     if(state)
@@ -141,7 +143,7 @@ void recording_toggle(bool state)
     }
     dmntchtWriteCheatProcessMemory(metadata.main_nso_extents.base + ENABLE_RECORDING_OFFSET, &buf, sizeof(buf));
     return;
-}
+}*/
 
 void disable_npr(bool state)
 {
@@ -152,7 +154,7 @@ void disable_npr(bool state)
     return;
 }
 
-void debug_mode_toggle(bool state)
+/*void debug_mode_toggle(bool state)
 {
     unsigned char buf1[1];
     unsigned char buf2[4];
@@ -182,7 +184,7 @@ void debug_mode_toggle(bool state)
     return;
 }
 
-/*void cur_map_toggle(bool state)
+void cur_map_toggle(bool state)
 {
     unsigned char buf;
     if(state)
@@ -212,7 +214,7 @@ void cur_map_disable(bool state)
     }
     dmntchtWriteCheatProcessMemory(metadata.main_nso_extents.base + MOUSE_PREMAP_OFFSET, &buf, sizeof(buf));
     return;
-}*/
+}
 
 void cursor_boundaries_toggle(bool state)
 {
@@ -224,12 +226,12 @@ void dpad_cursor_toggle(bool state)
 {
     dpad_cursor=state;
     return;
-}
+}*/
 
 bool bid_match()
 {
     const unsigned char build_id_size=20;
-    const unsigned char expected_build_id[build_id_size]={0xFA, 0xE8, 0xAA, 0x77, 0x8E, 0x4C, 0xE6, 0x12, 0xCE, 0x4E, 0x76, 0x55, 0x73, 0x9B, 0xB9, 0x4F, 0xF9, 0xD2, 0xCB, 0x11};
+    const unsigned char expected_build_id[build_id_size]={0xF5, 0x1A, 0x4F, 0x34, 0x5A, 0x39, 0x90, 0x3C, 0x79, 0xBB, 0x28, 0xCA, 0x64, 0xC0, 0x74, 0xC1, 0xEB, 0x19, 0xC7, 0x7F};
     for(unsigned char i=0; i<build_id_size; i++)
         if(metadata.main_nso_build_id[i]!=expected_build_id[i])
             return false;
@@ -243,7 +245,7 @@ public:
     // Called when this Gui gets loaded to create the UI
     // Allocate all your elements on the heap. libtesla will make sure to clean them up when not needed anymore
     virtual tsl::elm::Element* createUI() override {
-        auto rootFrame = new tsl::elm::OverlayFrame("MEGAHAKUS", "For MEGA39's 1.0.3");
+        auto rootFrame = new tsl::elm::OverlayFrame("MEGAHAKUS", "For MEGA39's 1.0.5");
         auto list = new tsl::elm::List();
         if (initialized&&debugService_isRunning()&&metadata.title_id==GAME_TITLE_ID&&bid_match())
         {
@@ -276,7 +278,7 @@ public:
 
             // "Debug mode"
             // Get current state
-            unsigned char dwguibuffer[1];
+            /*unsigned char dwguibuffer[1];
             if(!dmntchtReadCheatProcessMemory(metadata.main_nso_extents.base + DW_GUI_DRAW_OFFSET, dwguibuffer, 1))
                 debug_mode_enabled=dwguibuffer[0]==dw_gui_enabled;
 
@@ -287,7 +289,7 @@ public:
             debug_mode->setStateChangedListener(debug_mode_toggle);
 
             // Add item
-            list->addItem(debug_mode);
+            list->addItem(debug_mode);*/
 
             // "Cursor to touchscreen"
             // Get current state
@@ -306,7 +308,7 @@ public:
 
             // "Disable input polling"
             // Get current state
-            unsigned char pollbuffer;
+            /*unsigned char pollbuffer;
             if(!dmntchtReadCheatProcessMemory(metadata.main_nso_extents.base + INPUT_POLL_OFFSET, &pollbuffer, 1))
             {
                 // Create item
@@ -317,7 +319,7 @@ public:
 
                 // Add item
                 list->addItem(poll_disable);
-            }
+            }*/
 
             // "Disable mouse polling"
             // Get current state
@@ -335,18 +337,18 @@ public:
             }*/
 
             // "Cursor boundaries"
-            auto *cur_bound_itm = new tsl::elm::ToggleListItem("Cursor boundaries", cursor_boundaries);
+            /*auto *cur_bound_itm = new tsl::elm::ToggleListItem("Cursor boundaries", cursor_boundaries);
             cur_bound_itm->setStateChangedListener(cursor_boundaries_toggle);
-            list->addItem(cur_bound_itm);
+            list->addItem(cur_bound_itm);*/
 
             // "D-pad cursor"
-            auto *cur_dpad_itm = new tsl::elm::ToggleListItem("D-pad cursor", dpad_cursor);
+            /*auto *cur_dpad_itm = new tsl::elm::ToggleListItem("D-pad cursor", dpad_cursor);
             cur_dpad_itm->setStateChangedListener(dpad_cursor_toggle);
-            list->addItem(cur_dpad_itm);
+            list->addItem(cur_dpad_itm);*/
 
             // "Force TEST_MODE"
             // Get current state
-            unsigned char tmbuffer[1];
+            /*unsigned char tmbuffer[1];
             if(dmntchtReadCheatProcessMemory(metadata.main_nso_extents.base + STATE_SWITCH_OFFSET+2, tmbuffer, 1)) tmbuffer[0]=0x00;
 
             // Create item
@@ -356,11 +358,11 @@ public:
             force_test_mode_itm->setStateChangedListener(force_test_mode);
 
             // Add item
-            list->addItem(force_test_mode_itm);
+            list->addItem(force_test_mode_itm);*/
 
             // "Enable recording"
             // Get current state
-            unsigned char recbuffer[1];
+            /*unsigned char recbuffer[1];
             if(!dmntchtReadCheatProcessMemory(metadata.main_nso_extents.base + ENABLE_RECORDING_OFFSET, recbuffer, 1))
             {
                 // Create item
@@ -371,7 +373,7 @@ public:
 
                 // Add item
                 list->addItem(enable_rec_itm);
-            }
+            }*/
 
             // "Hide PV watermark"
             // Get current state
@@ -379,7 +381,7 @@ public:
             if(!dmntchtReadCheatProcessMemory(metadata.main_nso_extents.base + PVMARK_OFFSET, &pvmbuffer, 1))
             {
                 // Create item
-                auto *pvmark_itm = new tsl::elm::ToggleListItem("Hide PV watermark", pvmbuffer=='\0');
+                auto *pvmark_itm = new tsl::elm::ToggleListItem("Hide PV watermark", pvmbuffer=='a');
 
                 // Set listener function
                 pvmark_itm->setStateChangedListener(hidepvmark_toggle);
@@ -390,7 +392,7 @@ public:
         }
         else
         {
-            auto *not_started = new tsl::elm::ListItem("Please start MEGA39's 1.0.3.");
+            auto *not_started = new tsl::elm::ListItem("Please start MEGA39's 1.0.5.");
             list->addItem(not_started);
         }
 
@@ -427,7 +429,7 @@ public:
     }
 
     // Called once every frame to handle inputs not handled by other UI elements
-    virtual bool handleInput(u64 keysDown, u64 keysHeld, touchPosition touchInput, JoystickPosition leftJoyStick, JoystickPosition rightJoyStick) override {
+    /*virtual bool handleInput(u64 keysDown, u64 keysHeld, touchPosition touchInput, JoystickPosition leftJoyStick, JoystickPosition rightJoyStick) override {
         if((initialized&&debugService_isRunning()&&metadata.title_id==GAME_TITLE_ID&&bid_match())&&debug_mode_enabled&&((!dpad_cursor&&(leftJoyStick.dx!=0||leftJoyStick.dy!=0||rightJoyStick.dx!=0||rightJoyStick.dy!=0))||(dpad_cursor&&(keysHeld&KEY_DUP||keysHeld&KEY_DDOWN||keysHeld&KEY_DLEFT||keysHeld&KEY_DRIGHT))||keysHeld&KEY_ZR||keysHeld&KEY_ZL||(keysHeld&KEY_L||keysHeld&KEY_R)))
         {
             DivaInputState dis;
@@ -537,7 +539,7 @@ public:
         }
         if(opacity>0.0f) return false;   // Return true here to signal the inputs have been consumed
         else return true;
-    }
+    }*/
 };
 
 class M39OL : public tsl::Overlay {
