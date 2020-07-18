@@ -1,4 +1,4 @@
-# MEGAHAKUS 2.4.0
+# MEGAHAKUS 2.4.1
 A Tesla overlay for 初音ミク Project DIVA MEGA39's.
 
 ![screenshot](https://github.com/kjhmagic/MEGAHAKUS/raw/master/preview.PNG)
