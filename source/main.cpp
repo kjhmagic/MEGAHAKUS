@@ -231,7 +231,7 @@ void dpad_cursor_toggle(bool state)
 bool bid_match()
 {
     const unsigned char build_id_size=20;
-    const unsigned char expected_build_id[build_id_size]={0x3B, 0xD9, 0x6B, 0x7C, 0x17, 0x4A, 0x9A, 0xD1, 0x89, 0xF3, 0x39, 0x84, 0xF7, 0x07, 0x59, 0x6A, 0x7F, 0xCB, 0xFC, 0xF3};
+    const unsigned char expected_build_id[build_id_size]={0xE0, 0xC4, 0x18, 0x78, 0xF6, 0x36, 0xAD, 0x4F, 0x36, 0x2B, 0x74, 0xFB, 0x0C, 0x77, 0xB9, 0x5A, 0x22, 0xCE, 0x73, 0x64};
     for(unsigned char i=0; i<build_id_size; i++)
         if(metadata.main_nso_build_id[i]!=expected_build_id[i])
             return false;
@@ -245,7 +245,7 @@ public:
     // Called when this Gui gets loaded to create the UI
     // Allocate all your elements on the heap. libtesla will make sure to clean them up when not needed anymore
     virtual tsl::elm::Element* createUI() override {
-        auto rootFrame = new tsl::elm::OverlayFrame("MEGAHAKUS", "For MEGA39's 1.0.6");
+        auto rootFrame = new tsl::elm::OverlayFrame("MEGAHAKUS", "For MEGA39's 1.0.7");
         auto list = new tsl::elm::List();
         if (initialized&&debugService_isRunning()&&metadata.title_id==GAME_TITLE_ID&&bid_match())
         {
@@ -392,7 +392,7 @@ public:
         }
         else
         {
-            auto *not_started = new tsl::elm::ListItem("Please start MEGA39's 1.0.6.");
+            auto *not_started = new tsl::elm::ListItem("Please start MEGA39's 1.0.7.");
             list->addItem(not_started);
         }
 
