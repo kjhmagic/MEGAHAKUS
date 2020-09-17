@@ -1,4 +1,4 @@
-# MEGAHAKUS 2.4.2
+# MEGAHAKUS 2.4.3
 A Tesla overlay for 初音ミク Project DIVA MEGA39's.
 
 ![screenshot](https://github.com/kjhmagic/MEGAHAKUS/raw/master/preview01.jpg)
@@ -12,7 +12,7 @@ Project DIVA Modding 2nd Discord server: https://discord.gg/cvBVGDZ
 
 ## Requirements
 - [Atmosphère](https://github.com/Atmosphere-NX/Atmosphere)
-- 初音ミク Project DIVA MEGA39's 1.0.6
+- 初音ミク Project DIVA MEGA39's 1.0.7
 - (recommended) An extracted copy of the game's romfs partition (use [Lockpick_RCM](https://github.com/shchmue/Lockpick_RCM), included with [Kosmos](https://github.com/AtlasNX/Kosmos), to dump your keys, then [hactool](https://github.com/SciresM/hactool) to extract the PFS0 AKA NSP and the NCAs it contains)
 
 ## Installation
