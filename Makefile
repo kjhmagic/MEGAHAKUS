@@ -38,7 +38,7 @@ include $(DEVKITPRO)/libnx/switch_rules
 #   NACP building is skipped as well.
 #---------------------------------------------------------------------------------
 APP_TITLE	:=	MEGAHAKUS
-APP_VERSION := 	2.4.2
+APP_VERSION := 	2.4.3
 
 TARGET		:=	$(notdir $(CURDIR))
 BUILD		:=	build
