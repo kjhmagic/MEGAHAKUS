@@ -6,12 +6,12 @@
 #define GAME_TITLE_ID 0x100F3100DA46000
 
 // Disable NPR
-#define ADD_PARAM_OFFSET 0x9A6F30
+#define ADD_PARAM_OFFSET 0x9A7FAB
 const std::string add_param_redirect="adp_force";
 const std::string add_param_original="add_param";
 
 // VP
-#define VP_AMOUNT_OFFSET_MAIN 0x4D0F49F8
+#define VP_AMOUNT_OFFSET_MAIN 0x4D0F59F8
 
 // Debug mode
 // Thanks to samyuu for the addresses and the InputState struct
@@ -43,7 +43,7 @@ const unsigned char mouse_map_disabled[]={0x04, 0x00, 0x00, 0x14};*/
 
 // Resolution scale
 // Thanks to SwigS-27 for the offset
-#define RES_SCALE_OFFSET 0xB2D271DC
+#define RES_SCALE_OFFSET 0xB2D281DC
 
 // Enable recording
 // Using somewhatlurker's method
@@ -53,6 +53,6 @@ const unsigned char recording_disabled[]={0x41, 0x00, 0x00, 0x36};*/
 
 // Hide PV watermark
 // Offset found by M&M
-#define PVMARK_OFFSET 0x984C21
+#define PVMARK_OFFSET 0x985C48
 
 #endif // CONSTANTS_H
